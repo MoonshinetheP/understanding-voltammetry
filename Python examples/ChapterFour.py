@@ -31,6 +31,7 @@ class ChFour:
                 self.deltat *= self.omegat
 
         self.m = int(self.t.size)
+        self.t[self.m - 1] = self.tmax
         
         '''Containing arrays'''
         self.alpha = np.zeros((self.n - 1,))
@@ -43,7 +44,7 @@ class ChFour:
 
         
         '''Thomas coefficients for T < Ts'''
-        self.delt = self.t[-1] - self.t[0]
+        self.delt = self.t[1] - self.t[0]
         self.delx = np.zeros((self.n,))
         self.delx[0] = self.x[1] - self.x[0]
 
@@ -58,10 +59,8 @@ class ChFour:
         '''Modified gamma coefficients for T < Ts'''   
         self.gmod[0] = 0
         for i in range(1, self.n -1, 1):
-            self.gmod[i] = self.gamma[i] / (self.beta[i] - self.gmod[i-1] * self.alpha[i]) 
+            self.gmod[i] = self.gamma[i] / (self.beta[i] - self.gmod[i - 1] * self.alpha[i]) 
 
-
-    def run(self):
 
         self.time = np.array([])
         self.flux = np.array([])
@@ -92,7 +91,7 @@ class ChFour:
             self.time = np.append(self.time, self.t[k])
             self.flux = np.append(self.flux, -(self.C[1] - self.C[0]) / (self.x[1] - self.x[0]))
             self.ref = -1 / np.sqrt(np.pi * self.t[k])
-            self.qj = np.append(self.qj, (self.flux[-1] - self.ref) / (self.ref * 100))
+            self.qj = np.append(self.qj, (self.flux[-1] - self.ref) / (self.ref) * 100)
 
         self.dist = np.array([])
         self.conc = np.array([])    
@@ -102,4 +101,13 @@ class ChFour:
         
         self.output = zip(self.time, self.flux, self.qj)
         self.output2 = zip(self.dist, self.conc)
-        return(self.output2)
+        
+    def results(self):
+        return(self.output)
+
+if __name__ == '__main__':
+    instance = ChFour()
+    data = 'C:/Users/SLinf/Documents/data.txt'
+    with open(data, 'w') as file:
+        for ix, iy, iz in instance.results():
+            file.write(str(ix) + ',' + str(iy) + ',' + str(iz) + '\n')
