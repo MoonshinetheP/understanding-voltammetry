@@ -46,7 +46,7 @@ class ChThree:
                 self.dmod[x] = (self.delta[x] - self.dmod[x - 1] * self.a) / (self.b - self.gmod[x - 1] * self.a)
 
             self.C[self.n - 1] = 1
-            for y in range(self.n - 2, 0, -1):
+            for y in range(self.n - 2, -1, -1):
                 self.C[y] = self.dmod[y] - self.gmod[y] * self.C[y + 1]
 
                 self.delta[y] = self.C[y]
@@ -58,3 +58,11 @@ class ChThree:
 
     def results(self):
         return self.flux
+
+
+if __name__ == '__main__':
+    instance = ChThree()
+    data = 'C:/Users/SLinf/Documents/data.txt'
+    with open(data, 'w') as file:
+        for ix in instance.results():
+            file.write(str(ix) + '\n')
