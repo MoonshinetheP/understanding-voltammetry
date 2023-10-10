@@ -2,7 +2,7 @@ import numpy as np
 
 class ChThree:
 
-    def __init__(self, oEini = 20, oEfin = -20, osr = 100, odX = 2E-4, odE = 0.02):
+    def __init__(self, oEini = 20, oEfin = -20, osr = 100, odX = 4E-4, odE = 0.02):
         
         self.oEini = oEini
         self.oEfin = oEfin
@@ -64,5 +64,5 @@ if __name__ == '__main__':
     instance = ChThree()
     data = 'C:/Users/SLinf/Documents/data.txt'
     with open(data, 'w') as file:
-        for ix in instance.results():
+        for ix in instance.flux:
             file.write(str(ix) + '\n')
